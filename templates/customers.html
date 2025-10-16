@@ -1,0 +1,65 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}
+Customer Management - VRMS
+{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Customers</h1>
+
+<!-- Add Customer Form -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h4>Add New Customer</h4>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="contact_info" class="form-label">Contact Info (Email/Phone)</label>
+                    <input type="text" class="form-control" id="contact_info" name="contact_info" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="license_number" class="form-label">Driving License Number</label>
+                    <input type="text" class="form-control" id="license_number" name="license_number" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Customer</button>
+        </form>
+    </div>
+</div>
+
+<!-- Customer List -->
+<div class="card">
+    <div class="card-header">
+        <h4>Registered Customers</h4>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Customer ID</th>
+                    <th>Name</th>
+                    <th>Contact Info</th>
+                    <th>License Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                <tr>
+                    <td>{{ customer.customer_id }}</td>
+                    <td>{{ customer.name }}</td>
+                    <td>{{ customer.contact_info }}</td>
+                    <td>{{ customer.license_number }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

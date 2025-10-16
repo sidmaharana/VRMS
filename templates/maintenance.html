@@ -1,0 +1,82 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}
+Maintenance Tracking - VRMS
+{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Maintenance Records</h1>
+
+<!-- Add Maintenance Record Form -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h4>Add Maintenance Record</h4>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="vehicle_plate" class="form-label">Select Vehicle</label>
+                    <select class="form-select" id="vehicle_plate" name="vehicle_plate" required>
+                        <option value="" disabled selected>Choose a vehicle...</option>
+                        {% for vehicle in vehicles %}
+                            <option value="{{ vehicle.license_plate }}">{{ vehicle.make }} {{ vehicle.model }} ({{ vehicle.license_plate }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="service_date" class="form-label">Date of Service</label>
+                    <input type="datetime-local" class="form-control" id="service_date" name="service_date" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 mb-3">
+                    <label for="description" class="form-label">Description of Work</label>
+                    <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="cost" class="form-label">Cost (₹)</label>
+                    <input type="number" step="0.01" class="form-control" id="cost" name="cost" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Record</button>
+        </form>
+    </div>
+</div>
+
+<!-- Maintenance Records List -->
+<div class="card">
+    <div class="card-header">
+        <h4>Service History</h4>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Vehicle</th>
+                    <th>Service Date</th>
+                    <th>Description</th>
+                    <th>Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in maintenance_records %}
+                <tr>
+                    <td>{{ record.maintenance_id }}</td>
+                    <td>{{ record.make }} {{ record.model }} ({{ record.vehicle_plate }})</td>
+                    <td>{{ record.service_date }}</td>
+                    <td>{{ record.description }}</td>
+                    <td>₹{{ "%.2f"|format(record.cost) }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="text-center">No maintenance records found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

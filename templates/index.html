@@ -1,0 +1,81 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}
+Dashboard - VRMS
+{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Fleet Dashboard</h1>
+
+<!-- Fleet Status Summary -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">Total Vehicles</h5>
+                <p class="card-text fs-4">{{ total_vehicles }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">Available</h5>
+                <p class="card-text fs-4">{{ available_vehicles }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title">Rented</h5>
+                <p class="card-text fs-4">{{ rented_vehicles }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger">
+            <div class="card-body">
+                <h5 class="card-title">In Maintenance</h5>
+                <p class="card-text fs-4">{{ maintenance_vehicles }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Upcoming Reservations -->
+<div class="card">
+    <div class="card-header">
+        <h3>Upcoming Reservations</h3>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Reservation ID</th>
+                    <th>Vehicle Plate</th>
+                    <th>Customer ID</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reservation in upcoming_reservations %}
+                <tr>
+                    <td>{{ reservation.reservation_id }}</td>
+                    <td>{{ reservation.vehicle_plate }}</td>
+                    <td>{{ reservation.customer_id }}</td>
+                    <td>{{ reservation.start_date }}</td>
+                    <td>{{ reservation.end_date }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="text-center">No upcoming reservations.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

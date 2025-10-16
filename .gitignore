@@ -1,0 +1,21 @@
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+venv/
+env/
+.venv/
+.env/
+
+# Database file
+vrms.db
+
+# IDE configuration files
+.idea/
+.vscode/
+
+# OS-specific files
+.DS_Store

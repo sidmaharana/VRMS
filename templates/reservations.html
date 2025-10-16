@@ -1,0 +1,89 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}
+Reservation Management - VRMS
+{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Reservations</h1>
+
+<!-- New Reservation Form -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h4>Create New Reservation</h4>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="vehicle_plate" class="form-label">Select Vehicle</label>
+                    <select class="form-select" id="vehicle_plate" name="vehicle_plate" required>
+                        <option value="" disabled selected>Choose an available vehicle...</option>
+                        {% for vehicle in available_vehicles %}
+                            <option value="{{ vehicle.license_plate }}">{{ vehicle.make }} {{ vehicle.model }} ({{ vehicle.license_plate }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="customer_id" class="form-label">Select Customer</label>
+                    <select class="form-select" id="customer_id" name="customer_id" required>
+                        <option value="" disabled selected>Choose a customer...</option>
+                        {% for customer in customers %}
+                            <option value="{{ customer.customer_id }}">{{ customer.name }} (ID: {{ customer.customer_id }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="start_date" class="form-label">Start Date & Time</label>
+                    <input type="datetime-local" class="form-control" id="start_date" name="start_date" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="end_date" class="form-label">End Date & Time</label>
+                    <input type="datetime-local" class="form-control" id="end_date" name="end_date" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Reservation</button>
+        </form>
+    </div>
+</div>
+
+<!-- Reservation List -->
+<div class="card">
+    <div class="card-header">
+        <h4>All Reservations</h4>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Vehicle</th>
+                    <th>Customer</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Total Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in reservations %}
+                <tr>
+                    <td>{{ r.reservation_id }}</td>
+                    <td>{{ r.make }} {{ r.model }} ({{ r.vehicle_plate }})</td>
+                    <td>{{ r.name }}</td>
+                    <td>{{ r.start_date }}</td>
+                    <td>{{ r.end_date }}</td>
+                    <td>₹{{ "%.2f"|format(r.total_cost) }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center">No reservations found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
